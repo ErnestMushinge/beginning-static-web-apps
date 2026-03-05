@@ -5,3 +5,6 @@
 /begining static web apps/.vs/begining static web apps
 /begining static web apps/Client/bin/Debug/net9.0
 /begining static web apps/Client/obj
+/.vs
+/Client/bin/Debug/net9.0
+/Client/obj
