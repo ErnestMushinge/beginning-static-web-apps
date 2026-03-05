@@ -14,11 +14,16 @@ public class WeatherForecast
         _logger = logger;
     }
 
-    [Function("WeatherForecast")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
+    [Function("WeatherForcast")]
+    public IActionResult Run(
+[HttpTrigger(
+AuthorizationLevel.Function,
+"get",
+Route = "weather-forecast/{daysToForecast=5}")]
+HttpRequest req,
+int daysToForecast)
     {
-        _logger.LogInformation("C# HTTP trigger function processed a request.");
-        return new OkObjectResult("Welcome to Azure Functions!");
+        return new OkObjectResult(GetWeather(daysToForecast));
     }
 
     private static dynamic[] GetWeather(int daysToForecast)
