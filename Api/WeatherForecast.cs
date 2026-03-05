@@ -17,7 +17,7 @@ public class WeatherForecast
     [Function("WeatherForcast")]
     public IActionResult Run(
 [HttpTrigger(
-AuthorizationLevel.Function,
+AuthorizationLevel.Anonymous,
 "get",
 Route = "weather-forecast/{daysToForecast=5}")]
 HttpRequest req,
