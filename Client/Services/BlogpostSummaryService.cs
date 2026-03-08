@@ -12,8 +12,8 @@ public class BlogpostSummaryService(HttpClient httpClient)
     {
         if (Summaries == null)
         {
-            Summaries =
-            await _httpClient.GetFromJsonAsync<List<Blogpost>>("api/blogposts");
+
+            Summaries = await _httpClient.GetFromJsonAsync<List<Blogpost>>("api/blogposts");
         }
     }
 }

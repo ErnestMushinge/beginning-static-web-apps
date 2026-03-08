@@ -1,4 +1,5 @@
 ﻿@page "/blogposts"
+@inject NavigationManager navigationManager
 @inject BlogpostSummaryService service
 
 
@@ -11,7 +12,7 @@
 {
     foreach (var blogpostSummary in service.Summaries.OrderByDescending(bps => bps.PublishedDate))
     {
-        <article>
+        <article @onclick="() => Navigate(blogpostSummary.Id, blogpostSummary.Author)">
             <h2>@blogpostSummary.Title</h2>
             <div>
                 @foreach (var tag in blogpostSummary.Tags)
@@ -29,8 +30,16 @@
 
 @code
 {
+    void Navigate(Guid id, string author) =>
+navigationManager.NavigateTo($"/blogposts/{author}/{id}");
     protected override async Task OnInitializedAsync()
     {
-        await service.LoadBlogpostSummaries();
+        try
+        {
+            await service.LoadBlogpostSummaries();
+        }catch(Exception ex)
+        {
+            string err = ex.Message;
+        }
     }
 }
