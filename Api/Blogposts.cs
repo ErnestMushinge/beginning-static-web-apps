@@ -63,7 +63,7 @@ public class Blogposts
     c.Title,
     c.Author,
     c.PublishedDate,
-    }
+    
     c.BlogpostMarkdown,
     c.Tags
     FROM c
