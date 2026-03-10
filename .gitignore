@@ -9,5 +9,5 @@
 /Client/bin/Debug/net9.0
 /Client/obj
 /Models/bin/Debug/net9.0
-*.json
+
 /Models/obj
