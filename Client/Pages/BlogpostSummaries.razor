@@ -1,5 +1,8 @@
 ﻿@page "/blogposts"
 @inject BlogpostSummaryService service
+@implements IDisposable
+@inject BlogpostService blogpostService
+@inject NavigationManager navigationManager
 
 
 <PageTitle>Blogposts</PageTitle>
@@ -11,22 +14,60 @@
 {
     foreach (var blogpostSummary in service.Summaries.OrderByDescending(bps => bps.PublishedDate))
     {
+        var editAddress =
+$"/blogposts/{@blogpostSummary.Author}/{@blogpostSummary.Id}/edit";
         <BlogpostSummary Summary="@blogpostSummary" />
+        <AuthorizeView Roles="admin">
+            <Authorized>
+                <button @onclick="@(() =>
+                        navigationManager.NavigateTo("/blogposts/new"))">
+            Create Blogpost
+        </button>
 
+    </Authorized>
+</AuthorizeView>
+
+
+<AuthorizeView Roles="admin">
+<Authorized>
+<button @onclick="@(() =>
+navigationManager.NavigateTo(editAddress))">
+Edit BlogPost
+</button>
+                                                  <button @onclick="(() =>
+                blogpostService.Delete(blogpostSummary.Id, blogpostSummary.Author))">
+            Delete Blogpost
+        </button>
+    </Authorized>
+</AuthorizeView>
     }
 }
 
 @code
 {
   
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     try
+    //     {
+    //         await service.LoadBlogpostSummaries();
+    //     }catch(Exception ex)
+    //     {
+    //         string err = ex.Message;
+    //     }
+    // }
+
+    private void OnSummariesRefreshed(object? sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            await service.LoadBlogpostSummaries();
-        }catch(Exception ex)
-        {
-            string err = ex.Message;
-        }
+        await service.LoadBlogpostSummaries();
+        service.SummariesRefreshed += OnSummariesRefreshed;
+    }
+    public void Dispose()
+    {
+        service.SummariesRefreshed -= OnSummariesRefreshed;
     }
 }
