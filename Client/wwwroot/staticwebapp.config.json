@@ -6,5 +6,37 @@
       "/css/*",
       "/api/*"
     ]
+  },
+  "routes": [
+    {
+      "route": "/protected/*",
+      "allowedRoles": [ "authenticated" ]
+    },
+    {
+      "route": "/api/readwriteapi",
+      "methods": [ "POST", "PUT", "PATCH", "DELETE" ],
+      "allowedRoles": [ "authenticated" ]
+    },
+    {
+      "route": "/oldresource",
+      "redirect": "/newresource",
+      "statusCode": 301
+    },
+    {
+      "route": "/resource",
+      "redirect": "/temporaryresource",
+      "statusCode": 302
+    },
+    {
+      "route": "/.auth/*",
+      "statusCode": 404
+    }
+  ],
+  
+  "responseOverrides": {
+    "403": {
+      "rewrite": "/forbidden.html"
+    }
   }
+
 }
