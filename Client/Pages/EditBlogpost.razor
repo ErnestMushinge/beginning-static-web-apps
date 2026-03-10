@@ -64,15 +64,17 @@ else
         || Id == Guid.Empty
         || string.IsNullOrWhiteSpace(Author))
         {
+
+            navigationManager.NavigateTo("/404");
+            return;
         }
-        navigationManager.NavigateTo("/404");
-        return;
         var loadedPost = await service.GetBlogpost(Id.Value, Author);
         if (loadedPost is null)
         {
 
             navigationManager.NavigateTo("/404");
             return;
+        }
             mode = Mode.Edit;
             blogpost = new EditableBlogpost
                 {
@@ -83,7 +85,7 @@ else
                     BlogpostMarkdown = loadedPost.BlogpostMarkdown
                 };
             tags = loadedPost.Tags.ToList();
-        }
+        
     }
 
     private async void Save()
