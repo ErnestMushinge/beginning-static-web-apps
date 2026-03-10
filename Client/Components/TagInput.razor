@@ -77,8 +77,9 @@
     private async Task RemoveTag(string tag)
     {
         if (SelectedTags.Contains(tag))
-        {SelectedTags.Remove(tag);
-await SelectedTagsChanged.InvokeAsync(SelectedTags);
+        {
+            SelectedTags.Remove(tag);
+            await SelectedTagsChanged.InvokeAsync(SelectedTags);
         }
     }
 

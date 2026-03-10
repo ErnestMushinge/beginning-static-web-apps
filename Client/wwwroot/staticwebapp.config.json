@@ -1,4 +1,11 @@
 {
+  "routes": [
+    {
+      "route": "/api/blogposts",
+      "methods": [ "POST", "PUT", "DELETE" ],
+      "allowedRoles": [ "admin" ]
+    }
+  ],
   "navigationFallback": {
     "rewrite": "index.html",
     "exclude": [
@@ -6,42 +13,5 @@
       "/css/*",
       "/api/*"
     ]
-  },
-  "routes": [
-    {
-      "route": "/protected/*",
-      "allowedRoles": [ "authenticated" ]
-    },
-    {
-      "route": "/api/readwriteapi",
-      "methods": [ "POST", "PUT", "PATCH", "DELETE" ],
-      "allowedRoles": [ "authenticated" ]
-    },
-    {
-      "route": "/oldresource",
-      "redirect": "/newresource",
-      "statusCode": 301
-    },
-    {
-      "route": "/resource",
-      "redirect": "/temporaryresource",
-      "statusCode": 302
-    },
-    {
-      "route": "/.auth/*",
-      "statusCode": 404
-    },
-    {
-      "route": "/api/blogposts",
-      "methods": [ "POST", "PUT", "DELETE" ],
-      "allowedRoles": [ "admin" ]
-    }
-  ],
-  
-  "responseOverrides": {
-    "403": {
-      "rewrite": "/forbidden.html"
-    }
   }
-
 }
