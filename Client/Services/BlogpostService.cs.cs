@@ -3,11 +3,13 @@ using System.Net.Http.Json;
 using Models;
 namespace Client.Services;
 public class BlogpostService(HttpClient httpClient,
+
 NavigationManager navigationManager)
 {
     private readonly HttpClient _httpClient = httpClient;
     private readonly NavigationManager _navigationManager = navigationManager;
     private List<Blogpost> blogpostCache = new();
+    public event EventHandler? BlogpostChanged;
 
     public async Task<Blogpost?> GetBlogpost(Guid blogpostId, string author)
     {
@@ -29,12 +31,57 @@ NavigationManager navigationManager)
                 _navigationManager.NavigateTo("404");
                 return null;
             }
-            
+
             blogpostCache.Add(blogpost);
         }
         return blogpost;
 
     }
+    private void OnBlogpostsChanged()
+    {
+        BlogpostChanged?.Invoke(this, EventArgs.Empty);
+    }
 
+    public async Task<Blogpost> Create(Blogpost blogpost)
+    {
+        ArgumentNullException.ThrowIfNull(blogpost, nameof(blogpost));
+        var result = await _httpClient.PostAsJsonAsync("api/blogposts", blogpost);
+        result.EnsureSuccessStatusCode();
+        var savedBlogpost = await result.Content.ReadFromJsonAsync<Blogpost>();
+        blogpostCache.Add(savedBlogpost!);
+        OnBlogpostsChanged();
+        return savedBlogpost!;
+    }
+    public async Task Update(Blogpost blogpost)
+    {
+        ArgumentNullException.ThrowIfNull(blogpost, nameof(blogpost));
+        var result = await _httpClient.PutAsJsonAsync("api/blogposts", blogpost);
+        result.EnsureSuccessStatusCode();
+        var updatedBlogPost =
+        await result.Content.ReadFromJsonAsync<Blogpost>();
+        if (blogpostCache != null)
+        {
+            var index =
+            blogpostCache
+            .FindIndex(
+            b => b.Id == blogpost.Id
+            && b.Author == blogpost.Author);
+            if (index >= 0)
+            {
+                blogpostCache[index] = updatedBlogPost!;
+            }
+        }
+        OnBlogpostsChanged();
+    }
+
+    public async Task Delete(Guid id, string author)
+    {
+        var deleteURL = $"api/blogposts/{author}/{id}";
+        var result = await _httpClient.DeleteAsync(deleteURL);
+        result.EnsureSuccessStatusCode();
+        blogpostCache.RemoveAll(
+        blogpost => blogpost.Id == id && blogpost.Author == author);
+        OnBlogpostsChanged();
+    }
 
 }

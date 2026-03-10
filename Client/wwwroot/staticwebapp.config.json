@@ -30,6 +30,11 @@
     {
       "route": "/.auth/*",
       "statusCode": 404
+    },
+    {
+      "route": "/api/blogposts",
+      "methods": [ "POST", "PUT", "DELETE" ],
+      "allowedRoles": [ "admin" ]
     }
   ],
   
