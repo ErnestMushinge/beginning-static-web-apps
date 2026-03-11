@@ -17,7 +17,7 @@
         var editAddress =
 $"/blogposts/{@blogpostSummary.Author}/{@blogpostSummary.Id}/edit";
         <BlogpostSummary Summary="@blogpostSummary" />
-        <AuthorizeView>
+        <AuthorizeView >
             <Authorized>
                 <button @onclick="@(() =>
                         navigationManager.NavigateTo("/blogposts/new"))">
