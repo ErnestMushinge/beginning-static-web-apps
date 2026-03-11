@@ -17,7 +17,7 @@
         var editAddress =
 $"/blogposts/{@blogpostSummary.Author}/{@blogpostSummary.Id}/edit";
         <BlogpostSummary Summary="@blogpostSummary" />
-        <AuthorizeView Roles="admin">
+        <AuthorizeView>
             <Authorized>
                 <button @onclick="@(() =>
                         navigationManager.NavigateTo("/blogposts/new"))">
@@ -28,17 +28,17 @@ $"/blogposts/{@blogpostSummary.Author}/{@blogpostSummary.Id}/edit";
 </AuthorizeView>
 
 
-<AuthorizeView Roles="admin">
+<AuthorizeView>
 <Authorized>
 <button @onclick="@(() =>
 navigationManager.NavigateTo(editAddress))">
 Edit BlogPost
 </button>
-                                                  <button @onclick="(() =>
-                blogpostService.Delete(blogpostSummary.Id, blogpostSummary.Author))">
-            Delete Blogpost
-        </button>
-    </Authorized>
+<button @onclick="(() =>
+blogpostService.Delete(blogpostSummary.Id, blogpostSummary.Author))">
+Delete Blogpost
+</button>
+</Authorized>
 </AuthorizeView>
     }
 }
