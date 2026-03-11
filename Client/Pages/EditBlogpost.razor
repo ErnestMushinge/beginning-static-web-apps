@@ -1,12 +1,12 @@
-﻿@page "/blogposts/{author}/{id:guid}/edit"
+﻿@* @page "/blogposts/{author}/{id:guid}/edit" *@
 @page "/blogposts/new"
 @using Microsoft.AspNetCore.Authorization
 @using Models
 @inject BlogpostService service
-@inject TagsService tagsService
+@inject TagService tagsService
 @inject NavigationManager navigationManager
 
-<AuthorizeView Roles="admin">
+<AuthorizeView>
 <Authorized>
 @if (blogpost is null)
 {

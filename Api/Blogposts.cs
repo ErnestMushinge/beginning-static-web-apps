@@ -22,12 +22,7 @@ public class Blogposts
 
 
     [Function($"{nameof(Blogposts)}_GetAll")]
-    public IActionResult GetAll(
-      [HttpTrigger(AuthorizationLevel.Function,
-    "get",
-    Route = "blogposts")]
-    HttpRequest req,
-      [CosmosDBInput(
+    public IActionResult GetAll([HttpTrigger(AuthorizationLevel.Function,"get", Route = "blogposts")]HttpRequest req,[CosmosDBInput(
     databaseName: "SwaBlog",
     containerName: "BlogContainer",
     Connection  = "CosmosDbConnectionString",
@@ -68,7 +63,6 @@ public class Blogposts
     c.Title,
     c.Author,
     c.PublishedDate,
-    
     c.BlogpostMarkdown,
     c.Tags
     FROM c
@@ -86,8 +80,8 @@ public class Blogposts
     }
 
 
-    [Function($"{nameof(Blogposts)}_Post")]
-    public static async Task<IActionResult> PostBlogpostAsync(
+[Function($"{nameof(Blogposts)}_Post")]
+public static async Task<IActionResult> PostBlogpostAsync(
 [HttpTrigger(
 AuthorizationLevel.Anonymous,
 "post",
@@ -119,8 +113,8 @@ CosmosClient client)
     }
 
 
-    [Function($"{nameof(Blogposts)}_Put")]
-    public async Task<IActionResult> PutBlogpostAsync(
+[Function($"{nameof(Blogposts)}_Put")]
+public async Task<IActionResult> PutBlogpostAsync(
 [HttpTrigger(
 AuthorizationLevel.Anonymous,
 "put",
@@ -200,8 +194,8 @@ IsAuthorized(HttpRequestData req)
     }
 
 
-    [Function($"{nameof(Blogposts)}_Delete")]
-    public async Task<IActionResult> DeleteBlogpost(
+[Function($"{nameof(Blogposts)}_Delete")]
+public async Task<IActionResult> DeleteBlogpost(
 [HttpTrigger(
 AuthorizationLevel.Anonymous,
 "delete",
@@ -241,7 +235,8 @@ partitionKey: new PartitionKey(author));
         return new NoContentResult();
 
     }
-    private static async Task<dynamic> SaveBlogpostAsync(
+    
+private static async Task<dynamic> SaveBlogpostAsync(
 Blogpost blogpost,
 Guid id,
 string author,

@@ -14,19 +14,19 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<BlogpostSummaryService>();
 builder.Services.AddScoped<BlogpostService>();
-builder.Services.AddScoped<TagsService>();
-builder.Services.AddScoped(sp =>
-{
-    var httpClient = sp.GetRequiredService<HttpClient>();
-    return new GraphQLHttpClient(
-    new GraphQLHttpClientOptions
-    {
-        EndPoint =
-    new Uri($"{httpClient.BaseAddress}data-api/graphql")
-    },
-    new SystemTextJsonSerializer(
-    new JsonSerializerOptions(JsonSerializerDefaults.Web)), httpClient);
-});
+builder.Services.AddScoped<TagService>();
+//builder.Services.AddScoped(sp =>
+//{
+//    var httpClient = sp.GetRequiredService<HttpClient>();
+//    return new GraphQLHttpClient(
+//    new GraphQLHttpClientOptions
+//    {
+//        EndPoint =
+//    new Uri($"{httpClient.BaseAddress}data-api/graphql")
+//    },
+//    new SystemTextJsonSerializer(
+//    new JsonSerializerOptions(JsonSerializerDefaults.Web)), httpClient);
+//});
 builder.Services.AddStaticWebAppsAuthentication();
 builder.Services.AddCascadingAuthenticationState();
 
