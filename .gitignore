@@ -13,3 +13,7 @@
 /Models/obj
 /StaticWebAppAuthentication/bin/Debug/net9.0
 /StaticWebAppAuthentication/obj
+/Models/bin/Release/net9.0
+dist/
+/Client/bin/Release/net9.0
+/StaticWebAppAuthentication/bin/Release/net9.0
